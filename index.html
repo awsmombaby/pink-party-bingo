@@ -93,67 +93,52 @@ body{min-height:100svh;min-width:280px;overflow-x:hidden}
 }
 
 
-/* Companion game launcher, just below the progress menu. */
-.theatre-launcher {
+
+/* Theatre button and confirmation, below the existing corner menu. */
+.theatre-button {
   position: fixed;
-  z-index: 6;
+  z-index: 5;
   top: 72px;
   left: 22px;
+  font-size: 21px;
 }
-.theatre-launcher > summary {
-  display: grid;
-  place-items: center;
-  list-style: none;
-  cursor: pointer;
-  font-size: 14px;
+.theatre-confirm {
+  box-sizing: border-box;
+  width: min(340px, calc(100% - 40px));
+  padding: 24px;
+  text-align: center;
+}
+.theatre-confirm h2 {
+  margin: 0 0 20px;
+  font-size: 21px;
+  line-height: 1.5;
+}
+.theatre-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.theatre-confirm-actions button,
+.theatre-confirm-actions a {
+  min-width: 84px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font: inherit;
   font-weight: 700;
+  text-decoration: none;
 }
-.theatre-launcher > summary::-webkit-details-marker {
-  display: none;
-}
-.theatre-launcher[open] > summary {
-  background: #f4d3e1;
-}
-.theatre-launcher > summary:focus-visible,
-.theatre-launcher a:focus-visible {
+.theatre-confirm-actions a:focus-visible {
   outline: 3px solid #6f1640;
   outline-offset: 3px;
 }
-.theatre-launcher-panel {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 8px);
-  width: max-content;
-  max-width: calc(100vw - 100px);
-  padding: 8px;
-  border: 1px solid #be829c;
-  border-radius: 13px;
-  background: #fff9fc;
-  box-shadow: 0 5px 20px #6a1d3e22;
-}
-.theatre-launcher-panel a {
-  display: grid;
-  gap: 4px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: #55203b;
-  text-decoration: none;
-  line-height: 1.4;
-}
-.theatre-launcher-panel a:hover {
-  background: #fce8f1;
-}
-.theatre-launcher-panel small {
-  font-size: 14px;
-  color: #754960;
-}
 @media (max-width: 600px) {
-  .theatre-launcher {
+  .theatre-button {
     top: 59px;
     left: 15px;
-  }
-  .theatre-launcher > summary {
-    font-size: 12px;
+    font-size: 19px;
   }
   .game:not([data-layout="landscape"]) .prompt {
     max-width: min(100%, calc(100vw - 118px));
@@ -164,7 +149,6 @@ body{min-height:100svh;min-width:280px;overflow-x:hidden}
     max-width: calc(100% - 32px);
   }
 }
-
 </style>
  
  
@@ -176,15 +160,7 @@ body{min-height:100svh;min-width:280px;overflow-x:hidden}
 <body>
  <div class="party-decor" aria-hidden="true"><div class="garland left"><i></i><i></i><i></i><i></i><i></i></div><div class="garland right"><i></i><i></i><i></i><i></i></div><span class="sparkle one">✦</span><span class="sparkle two">✧</span></div>
  <button id="menu-button" class="icon-button menu-button" aria-label="開啟進度選單" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/></svg></button>
- <details class="theatre-launcher">
-    <summary class="icon-button" aria-label="單字小劇場選單">小劇場</summary>
-    <div class="theatre-launcher-panel">
-      <a href="./little-word-theatre.html" target="_blank" rel="noopener">
-        <strong>單字小劇場</strong>
-        <small>主題單字與情境對話 · 在新分頁開啟</small>
-      </a>
-    </div>
-  </details>
+ <button id="theatre-button" class="icon-button theatre-button" type="button" aria-label="單字小劇場" aria-haspopup="dialog" aria-controls="theatre-confirm">劇</button>
   <button id="save-button" class="save-button" type="button" aria-haspopup="dialog" aria-controls="save-dialog">存檔</button>
  <button id="fullscreen" class="icon-button fullscreen" aria-label="全螢幕"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button>
  <canvas id="celebration" class="celebration-canvas" aria-hidden="true" hidden></canvas>
@@ -220,6 +196,15 @@ body{min-height:100svh;min-width:280px;overflow-x:hidden}
  <dialog id="vocab-dialog" class="content-dialog" aria-labelledby="vocab-heading"><div class="dialog-header"><h2 id="vocab-heading">單字提示</h2><button class="icon-button close-dialog" data-close="vocab-dialog" aria-label="關閉單字提示">×</button></div><div id="vocab-list" class="vocab-list"></div></dialog>
  
  
+
+<dialog id="theatre-confirm" class="theatre-confirm" aria-labelledby="theatre-confirm-title">
+  <h2 id="theatre-confirm-title">要進入單字小劇場嗎？</h2>
+  <div class="theatre-confirm-actions">
+    <button id="theatre-stay" class="secondary" type="button" autofocus>否</button>
+    <a id="theatre-enter" class="primary" href="./little-word-theatre.html" target="_blank" rel="noopener" aria-label="是，在新分頁開啟單字小劇場">是</a>
+  </div>
+</dialog>
+
 <dialog id="save-dialog" class="content-dialog save-dialog" aria-labelledby="save-heading">
  <div class="dialog-header"><h2 id="save-heading">存檔紀錄</h2><button class="icon-button close-dialog" type="button" data-close="save-dialog" aria-label="關閉存檔紀錄">×</button></div>
  <div class="save-body">
@@ -1141,6 +1126,13 @@ $('download-current-save').addEventListener('click',()=>{$('export-progress').cl
 $('import-save-record').addEventListener('click',()=>$('progress-file').click());
 $('undo-save-delete').addEventListener('click',()=>{const result=saveRecords.undo();if(result.ok){renderSaveRecords();saveMessage('已復原剛才刪除的存檔。');}else saveMessage('目前無法復原刪除，請稍後再試。');});
 
+const theatreConfirmation = $('theatre-confirm');
+$('theatre-button').addEventListener('click', () => theatreConfirmation.showModal());
+$('theatre-stay').addEventListener('click', () => theatreConfirmation.close());
+$('theatre-enter').addEventListener('click', () => {
+  flushProgress();
+  theatreConfirmation.close();
+});
 $('menu-button').addEventListener('click',openProgress);
 $('grammar-button').addEventListener('click',()=>{if(locked)return;session.assisted=true;save();$('grammar-detail').innerHTML=grammarHTML(lesson(),question(),'h3');$('grammar-detail').scrollTop=0;$('grammar-dialog').showModal();syncGrammarScroll();});
 $('vocab-button').addEventListener('click',()=>{
