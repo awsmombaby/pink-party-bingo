@@ -92,6 +92,79 @@ body{min-height:100svh;min-width:280px;overflow-x:hidden}
  .save-actions .secondary{flex:1;min-width:125px}
 }
 
+
+/* Companion game launcher, just below the progress menu. */
+.theatre-launcher {
+  position: fixed;
+  z-index: 6;
+  top: 72px;
+  left: 22px;
+}
+.theatre-launcher > summary {
+  display: grid;
+  place-items: center;
+  list-style: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+}
+.theatre-launcher > summary::-webkit-details-marker {
+  display: none;
+}
+.theatre-launcher[open] > summary {
+  background: #f4d3e1;
+}
+.theatre-launcher > summary:focus-visible,
+.theatre-launcher a:focus-visible {
+  outline: 3px solid #6f1640;
+  outline-offset: 3px;
+}
+.theatre-launcher-panel {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 8px);
+  width: max-content;
+  max-width: calc(100vw - 100px);
+  padding: 8px;
+  border: 1px solid #be829c;
+  border-radius: 13px;
+  background: #fff9fc;
+  box-shadow: 0 5px 20px #6a1d3e22;
+}
+.theatre-launcher-panel a {
+  display: grid;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #55203b;
+  text-decoration: none;
+  line-height: 1.4;
+}
+.theatre-launcher-panel a:hover {
+  background: #fce8f1;
+}
+.theatre-launcher-panel small {
+  font-size: 14px;
+  color: #754960;
+}
+@media (max-width: 600px) {
+  .theatre-launcher {
+    top: 59px;
+    left: 15px;
+  }
+  .theatre-launcher > summary {
+    font-size: 12px;
+  }
+  .game:not([data-layout="landscape"]) .prompt {
+    max-width: min(100%, calc(100vw - 118px));
+  }
+}
+@media (max-height: 540px) and (orientation: landscape) {
+  .game[data-layout="landscape"] .prompt {
+    max-width: calc(100% - 32px);
+  }
+}
+
 </style>
  
  
@@ -103,7 +176,16 @@ body{min-height:100svh;min-width:280px;overflow-x:hidden}
 <body>
  <div class="party-decor" aria-hidden="true"><div class="garland left"><i></i><i></i><i></i><i></i><i></i></div><div class="garland right"><i></i><i></i><i></i><i></i></div><span class="sparkle one">✦</span><span class="sparkle two">✧</span></div>
  <button id="menu-button" class="icon-button menu-button" aria-label="開啟進度選單" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/></svg></button>
- <button id="save-button" class="save-button" type="button" aria-haspopup="dialog" aria-controls="save-dialog">存檔</button>
+ <details class="theatre-launcher">
+    <summary class="icon-button" aria-label="單字小劇場選單">小劇場</summary>
+    <div class="theatre-launcher-panel">
+      <a href="./little-word-theatre.html" target="_blank" rel="noopener">
+        <strong>單字小劇場</strong>
+        <small>主題單字與情境對話 · 在新分頁開啟</small>
+      </a>
+    </div>
+  </details>
+  <button id="save-button" class="save-button" type="button" aria-haspopup="dialog" aria-controls="save-dialog">存檔</button>
  <button id="fullscreen" class="icon-button fullscreen" aria-label="全螢幕"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button>
  <canvas id="celebration" class="celebration-canvas" aria-hidden="true" hidden></canvas>
  <main id="game" class="game" data-screen="bingo">
