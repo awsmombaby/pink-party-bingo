@@ -42,6 +42,56 @@ dialog{color:#402333;border:2px solid #ac6485;border-radius:22px;background:#fff
 .word{overflow-wrap:normal;hyphens:manual}.tile-word{display:block;max-width:100%;min-width:0;white-space:normal;word-break:normal;overflow-wrap:normal;hyphens:manual;line-height:1.12;text-align:center}
 .progress-file-actions #recover-progress{grid-column:1/-1}.recovery-list{display:grid;gap:8px;margin:12px 4px}.recovery-choice{font:inherit;font-size:15px;line-height:1.6;text-align:left;border:1px solid #c08ca7;border-radius:10px;padding:10px 12px;color:#63374e;background:#fff8fc;-webkit-text-stroke:0}.recovery-choice:hover{background:#f9e5f0}
 
+
+/* Stable exercise frame: every stage shares the same centered card. */
+html{min-height:100%;overflow-x:hidden}
+body{min-height:100svh;min-width:280px;overflow-x:hidden}
+.game{display:grid;grid-template-columns:minmax(0,var(--side));grid-template-rows:var(--band-height) var(--side) var(--band-height);place-content:center;place-items:center;gap:var(--frame-gap);height:var(--page-height);min-height:100svh;padding:max(var(--frame-edge),calc(env(safe-area-inset-top) + 8px)) var(--frame-inline) max(var(--frame-edge),calc(env(safe-area-inset-bottom) + 8px));isolation:isolate}
+.game .prompt{position:relative;grid-area:1/1;inset:auto;transform:none;align-self:end;max-width:100%;max-height:100%;width:max-content;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:10px 18px;font-size:clamp(25px,2.7vw,40px);line-height:1.45}
+.game .prompt-translation{margin-top:5px;font-size:clamp(16px,1.2vw,20px);line-height:1.45}
+.game .card{position:relative;grid-area:2/1;inset:auto;transform:none;width:var(--side);height:var(--side)}
+.game .below-card{position:relative;grid-area:3/1;inset:auto;transform:none;align-self:start;width:100%;max-height:100%;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;gap:8px;padding:2px 2px 8px}
+.game .learning-tools{flex-shrink:0}
+.game .prompt-legend,.game .evolution,.game .hint{flex-shrink:0}
+.game .hint{margin:0}
+.save-button{position:fixed;top:max(20px,calc(env(safe-area-inset-top) + 9px));left:50%;transform:translateX(-50%);z-index:5;background:#fff8fcee;color:#6e2346;border:1.5px solid #99516f;border-radius:11px;padding:8px 14px;font-size:16px;line-height:1.4;min-height:40px;-webkit-text-stroke:0}
+.save-button:hover{background:#f4d3e1}
+.save-dialog{width:min(650px,calc(100% - 24px));max-height:88svh}
+.save-body{padding:20px 24px 26px;overflow-y:auto;max-height:calc(88svh - 85px)}
+.save-help,.save-current,.save-status-message{font-size:15px;line-height:1.65;margin:0 0 12px;color:#714559}
+.save-current{padding:12px;border:1px solid #d1a2b8;border-radius:12px;background:#fff1f8}
+.save-label{display:block;font-size:16px;line-height:1.5;margin:16px 0 6px}
+.save-name{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1.5px solid #b27492;border-radius:10px;background:#fffdfa;color:#402333}
+.save-actions{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 16px}
+.save-actions .secondary,.record-actions button{font-size:16px;padding:9px 12px;-webkit-text-stroke:0}
+.save-records{display:grid;gap:12px}
+.save-record{border:1.5px solid #c18ca6;border-radius:14px;padding:14px;background:#fffdfd}
+.save-record h3{font-size:19px;line-height:1.4;margin:0 0 6px;overflow-wrap:anywhere}
+.save-record time{display:block;font-size:14px;color:#714559;line-height:1.5}
+.save-record p{font-size:15px;line-height:1.65;margin:8px 0}
+.record-actions{display:flex;flex-wrap:wrap;gap:8px}
+.record-actions button{font:inherit;font-size:15px;border:1px solid #aa6d8b;border-radius:9px;background:#fff0f7;color:#63223f;padding:8px 11px}
+.record-actions .delete-save{margin-left:auto;background:#fff9fc;color:#805565}
+.save-empty{font-size:16px;line-height:1.65;color:#714559}
+.game[data-layout=landscape]{grid-template-columns:minmax(0,var(--leading-width)) var(--side);grid-template-rows:var(--band-height) var(--band-height)}
+.game[data-layout=landscape] .card{grid-area:1/2/3/3}
+.game[data-layout=landscape] .prompt{grid-area:1/1;font-size:25px}
+.game[data-layout=landscape] .below-card{grid-area:2/1}
+.game[data-layout=landscape] .prompt-legend{font-size:12px}
+@keyframes card-pull-out{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(13%,-14%) rotate(6deg) scale(.96);opacity:0}}
+@keyframes card-draw-in{0%{transform:translate(-11%,13%) rotate(-5deg) scale(.97);opacity:0}100%{transform:translate(0,0) rotate(0) scale(1);opacity:1}}
+@media(max-width:600px){
+ .game .prompt{font-size:25px;padding:8px 12px;line-height:1.4;border-radius:13px}
+ .game .prompt-translation{font-size:16px}
+ .game .prompt-legend{font-size:12px;line-height:1.4;gap:4px}
+ .game .evolution{font-size:14px}
+ .game .tool-button{font-size:17px;padding:8px 15px}
+ .game .below-card{gap:7px}
+ .save-button{top:max(14px,calc(env(safe-area-inset-top) + 8px));font-size:15px;min-height:38px;padding:7px 13px}
+ .save-body{padding:16px}
+ .save-actions .secondary{flex:1;min-width:125px}
+}
+
 </style>
  
  
@@ -53,6 +103,7 @@ dialog{color:#402333;border:2px solid #ac6485;border-radius:22px;background:#fff
 <body>
  <div class="party-decor" aria-hidden="true"><div class="garland left"><i></i><i></i><i></i><i></i><i></i></div><div class="garland right"><i></i><i></i><i></i><i></i></div><span class="sparkle one">✦</span><span class="sparkle two">✧</span></div>
  <button id="menu-button" class="icon-button menu-button" aria-label="開啟進度選單" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14"/></svg></button>
+ <button id="save-button" class="save-button" type="button" aria-haspopup="dialog" aria-controls="save-dialog">存檔</button>
  <button id="fullscreen" class="icon-button fullscreen" aria-label="全螢幕"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button>
  <canvas id="celebration" class="celebration-canvas" aria-hidden="true" hidden></canvas>
  <main id="game" class="game" data-screen="bingo">
@@ -82,10 +133,23 @@ dialog{color:#402333;border:2px solid #ac6485;border-radius:22px;background:#fff
   </section>
   <div id="below-card" class="below-card"><button id="grammar-scroll" type="button" class="grammar-chevron" aria-label="向下閱讀文法說明" hidden><svg viewBox="0 0 52 38" aria-hidden="true"><defs><linearGradient id="grammar-scroll-gradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d3a34f"/><stop offset=".48" stop-color="#a34279"/><stop offset="1" stop-color="#7b4ca0"/></linearGradient></defs><path d="M10 11 L26 27 L42 11" stroke="url(#grammar-scroll-gradient)"/></svg></button><p id="variation-note" class="variation-note" hidden></p><div id="prompt-legend" class="prompt-legend" aria-label="詞性顏色對照"></div><p id="evolution" class="evolution" hidden></p><aside id="hint" class="hint" aria-live="polite" hidden></aside><nav id="learning-tools" class="learning-tools" aria-label="學習提示"><button id="grammar-button" class="tool-button">Grammar</button><button id="vocab-button" class="tool-button">單字提示</button></nav><p id="save-notice" class="save-notice" role="status" hidden></p></div>
  </main>
- <dialog id="progress-dialog" class="progress-dialog" aria-labelledby="progress-heading"><div class="dialog-header"><h2 id="progress-heading">我的進度</h2><button class="icon-button close-dialog" data-close="progress-dialog" aria-label="關閉進度選單">×</button></div><div class="progress-body"><div class="progress-overview"><strong id="overall-count"></strong><span id="current-position"></span><progress id="overall-progress" max="60" value="0" aria-label="文法完成進度"></progress><div id="level-counts" class="level-counts"></div></div><div id="lesson-list" class="lesson-list"></div><p class="menu-note">每完成三個可搭配的文法單元，加入一題綜合棋盤與一題綜合翻譯。</p><p class="menu-note">棋盤依句長安排：3×3 簡單、4×4 中等、5×5 困難。</p><div class="progress-file-actions"><button id="export-progress" class="secondary" type="button">匯出進度</button><button id="import-progress" class="secondary" type="button">匯入進度</button><button id="recover-progress" class="secondary" type="button">復原自動備份</button><input id="progress-file" type="file" accept=".json,application/json" hidden></div><p class="progress-file-note">進度自動保存在目前的瀏覽器與開啟位置。換連結、檔案路徑、瀏覽器或裝置時，可能無法直接讀到舊紀錄；請從原處匯出，再於新位置匯入。自動備份可復原這個位置保留的紀錄。</p><div id="recovery-list" class="recovery-list" hidden></div><p id="progress-file-status" role="status"></p><p id="save-status" class="menu-note"></p></div></dialog>
+ <dialog id="progress-dialog" class="progress-dialog" aria-labelledby="progress-heading"><div class="dialog-header"><h2 id="progress-heading">我的進度</h2><button class="icon-button close-dialog" data-close="progress-dialog" aria-label="關閉進度選單">×</button></div><div class="progress-body"><div class="progress-overview"><strong id="overall-count"></strong><span id="current-position"></span><progress id="overall-progress" max="60" value="0" aria-label="文法完成進度"></progress><div id="level-counts" class="level-counts"></div></div><button id="manage-saves" class="secondary" type="button" style="width:100%;margin:0 0 18px">存檔紀錄與跨裝置接續</button><div id="lesson-list" class="lesson-list"></div><p class="menu-note">每完成三個可搭配的文法單元，加入一題綜合棋盤與一題綜合翻譯。</p><p class="menu-note">棋盤依句長安排：3×3 簡單、4×4 中等、5×5 困難。</p><div class="progress-file-actions"><button id="export-progress" class="secondary" type="button">匯出進度</button><button id="import-progress" class="secondary" type="button">匯入進度</button><button id="recover-progress" class="secondary" type="button">復原自動備份</button><input id="progress-file" type="file" accept=".json,application/json" hidden></div><p class="progress-file-note">進度自動保存在目前的瀏覽器與開啟位置。換連結、檔案路徑、瀏覽器或裝置時，可能無法直接讀到舊紀錄；請從原處匯出，再於新位置匯入。自動備份可復原這個位置保留的紀錄。</p><div id="recovery-list" class="recovery-list" hidden></div><p id="progress-file-status" role="status"></p><p id="save-status" class="menu-note"></p></div></dialog>
  <dialog id="grammar-dialog" class="content-dialog" aria-labelledby="grammar-heading"><div class="dialog-header"><h2 id="grammar-heading">Grammar</h2><button class="icon-button close-dialog" data-close="grammar-dialog" aria-label="關閉文法介紹">×</button></div><div id="grammar-detail" class="dialog-content"></div><div class="dialog-scroll-footer"><button id="grammar-dialog-scroll" type="button" class="grammar-chevron" aria-label="向下閱讀文法說明" hidden><svg viewBox="0 0 52 38" aria-hidden="true"><defs><linearGradient id="grammar-dialog-gradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d3a34f"/><stop offset=".48" stop-color="#a34279"/><stop offset="1" stop-color="#7b4ca0"/></linearGradient></defs><path d="M10 11 L26 27 L42 11" stroke="url(#grammar-dialog-gradient)"/></svg></button></div></dialog>
  <dialog id="vocab-dialog" class="content-dialog" aria-labelledby="vocab-heading"><div class="dialog-header"><h2 id="vocab-heading">單字提示</h2><button class="icon-button close-dialog" data-close="vocab-dialog" aria-label="關閉單字提示">×</button></div><div id="vocab-list" class="vocab-list"></div></dialog>
  
+ 
+<dialog id="save-dialog" class="content-dialog save-dialog" aria-labelledby="save-heading">
+ <div class="dialog-header"><h2 id="save-heading">存檔紀錄</h2><button class="icon-button close-dialog" type="button" data-close="save-dialog" aria-label="關閉存檔紀錄">×</button></div>
+ <div class="save-body">
+  <p id="save-current-summary" class="save-current"></p>
+  <p class="save-help">手動存檔會保留當時的單元、題目、棋盤與翻譯草稿。這裡的清單保存在這台裝置；下載存檔後，可在另一台手機或電腦匯入接續。</p>
+  <label class="save-label" for="record-name">存檔名稱（可不填）</label><input id="record-name" class="save-name" type="text" maxlength="40" placeholder="例如：今天練習到這裡" autocomplete="off">
+  <div class="save-actions"><button id="new-save-record" class="secondary" type="button">建立存檔</button><button id="download-current-save" class="secondary" type="button">下載目前進度</button><button id="import-save-record" class="secondary" type="button">匯入存檔</button><button id="undo-save-delete" class="secondary" type="button" hidden>復原刪除</button></div>
+  <p id="save-record-status" class="save-status-message" role="status" aria-live="polite"></p>
+  <div id="save-record-list" class="save-records"></div>
+ </div>
+</dialog>
+
  <div id="announcer" class="sr-only" role="status" aria-live="polite"></div>
  <noscript>請在瀏覽器開啟 JavaScript，即可開始練習。</noscript>
 <script>
@@ -549,6 +613,70 @@ function plan(word,{width,height,preferred=28,minFont=15,measure=(s,font)=>s.len
 root.PartyWordLayout={plan,boundaries};
 })(globalThis);
 
+
+(function(root){
+'use strict';
+function plan(width,height){
+ const w=Math.max(240,Number(width)||360),h=Math.max(240,Number(height)||640),mobile=w<=600;
+ const landscape=w>h*1.25&&h<540;
+ if(landscape){
+  const edge=Math.min(50,h*.16),gap=18,side=Math.floor(Math.min(h-edge*2,w*.43,560)),leading=Math.floor(Math.min(420,w-edge*2-side-gap));
+  return {width:w,height:h,side,band:(side-gap)/2,edge,gap,inline:edge,leading,landscape:true,centerY:h/2};
+ }
+ const edge=Math.min(mobile?58:64,h*.12),gap=mobile?10:14,inline=mobile?16:30;
+ let band=Math.min(132,Math.max(mobile?78:80,h*(mobile?.16:.13)));
+ if(h-edge*2-band*2-gap*2<160)band=Math.max(42,(h-edge*2-gap*2-160)/2);
+ const side=Math.floor(Math.max(130,Math.min(w-inline*2,Math.sqrt(w*h/3),h-edge*2-band*2-gap*2)));
+ return {width:w,height:Math.max(h,edge*2+band*2+gap*2+side),side,band,edge,gap,inline,leading:side,landscape:false,centerY:h/2};
+}
+root.PartyLayout={plan};
+})(globalThis);
+(function(root){
+'use strict';
+const KEY='pink-party-manual-saves-v1',LIMIT=12;
+function create(storage,progress,now=()=>new Date().toISOString()){
+ function clean(record){
+  if(!record||typeof record.id!=='string'||record.id.length>100||typeof record.name!=='string'||!Number.isFinite(Date.parse(record.createdAt)))return null;
+  const p=progress.normalize(record.progress);if(!p)return null;
+  return {id:record.id,name:record.name.slice(0,40),createdAt:record.createdAt,progress:p};
+ }
+ function read(){
+  try{
+   const raw=storage.getItem(KEY);if(!raw)return {records:[],trash:null,failed:false};
+   const value=JSON.parse(raw);if(value.version!==1||!Array.isArray(value.records)||value.records.length>LIMIT)throw Error('Invalid saves');
+   const records=value.records.map(clean),ids=new Set(records.filter(Boolean).map(r=>r.id));
+   if(records.some(r=>!r)||ids.size!==records.length||value.trash&&!clean(value.trash))throw Error('Invalid save record');
+   return {records,trash:value.trash?clean(value.trash):null,failed:false};
+  }catch{return {records:[],trash:null,failed:true};}
+ }
+ function write(value){
+  if(value.failed)return {ok:false,reason:'unreadable'};
+  try{storage.setItem(KEY,JSON.stringify({version:1,records:value.records,trash:value.trash}));return {ok:true};}catch{return {ok:false,reason:'storage'};}
+ }
+ function add(data,name){
+  const value=read();if(value.failed)return {ok:false,reason:'unreadable'};if(value.records.length>=LIMIT)return {ok:false,reason:'full'};
+  const p=progress.normalize(data);if(!p)return {ok:false,reason:'invalid'};
+  const time=now();p.savedAt=time;const label=String(name||'').replace(/[\u0000-\u001f\u007f]/g,'').trim().slice(0,40)||'我的練習進度';
+  const record={id:time+'-'+Math.random().toString(36).slice(2,10),name:label,createdAt:time,progress:p};value.records.unshift(record);
+  return {...write(value),record};
+ }
+ function remove(id){
+  const value=read(),index=value.records.findIndex(r=>r.id===id);if(value.failed||index<0)return {ok:false,reason:'unreadable'};
+  value.trash=value.records.splice(index,1)[0];return write(value);
+ }
+ function undo(){
+  const value=read();if(value.failed||!value.trash)return {ok:false,reason:'unreadable'};if(value.records.length>=LIMIT)return {ok:false,reason:'full'};
+  value.records.unshift(value.trash);value.trash=null;return write(value);
+ }
+ function exportRecord(record){
+  const r=clean(record);if(!r)throw Error('Invalid record');
+  return JSON.stringify({app:'pink-party-progress',format:1,exportedAt:now(),record:{name:r.name,createdAt:r.createdAt},progress:r.progress},null,2);
+ }
+ return {read,add,remove,undo,exportRecord,limit:LIMIT};
+}
+root.PartySaveRecords={create};
+})(globalThis);
+
 (function(){
 'use strict';
 const $=id=>document.getElementById(id),E=PartyEngine,L=PartyLearning,lessons=PartyCurriculum;
@@ -556,6 +684,8 @@ const STORAGE='pink-party-a1a2-v3',OLD='pink-party-a1a2-v2';
 const questions=[...lessons.flatMap(l=>l.questions),...PartyMeta.reviews],lookup=new Map(questions.map(q=>[q.id,q]));
 const blank=PartyProgress.blank;
 const progressStore=PartyProgress.create({getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)});
+const saveRecords=PartySaveRecords.create({getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)},PartyProgress);
+let frameViewport=null;
 let data=blank(),saveAvailable=true,saveProtected=false,startupRecovery=false,recoveryChoices=[],locked=false,timer=null,dragging=false,lastDrag=-1,session,celebrationFrame=0,dealing=false,dealTimer=null,scrollSaveTimer=null;
 try{
  const loaded=progressStore.load(),saved=loaded.progress;
@@ -585,7 +715,7 @@ function save(){
  PartyProgress.reconcile(data);
  data.currentLessonId=lesson().id;
  const result=progressStore.save(data);saveAvailable=result.ok;saveProtected=result.protected===true;if(result.ok)data.savedAt=result.savedAt;
- const notice=$('save-notice'),empty=!progressStore.hasActivity(data);notice.hidden=saveAvailable&&!empty&&!startupRecovery;
+ const notice=$('save-notice'),empty=!progressStore.hasActivity(data);notice.hidden=saveAvailable&&!startupRecovery;
  notice.textContent=saveProtected?'未能安全接回進度，已停止覆寫。請開啟選單復原備份，或回到原本的遊戲檔案匯出進度。':!saveAvailable?'這個瀏覽器目前無法儲存，請從選單匯出進度。':startupRecovery?'已從自動備份接回進度。':empty?'這個開啟位置尚未找到練習紀錄。若你已玩過，請回到原本的遊戲分頁或檔案，從選單匯出進度後再匯入。':'';
  if($('progress-dialog').open)renderSaveStatus();
 }
@@ -668,11 +798,15 @@ function render(){
  renderPrompt();layout();if(done)celebrate();save();
 }
 function layout(){
- const w=window.innerWidth,mobile=w<=600;let h=Math.max(window.innerHeight,mobile?740:680);
- let side=Math.floor(Math.min(Math.sqrt(w*h/3),w-(mobile?24:70),h-(mobile?320:290)));
- let center=h/2-13;side=Math.max(230,side);document.documentElement.style.setProperty('--side',`${side}px`);
- if(!$('prompt').hidden){const height=$('prompt').getBoundingClientRect().height;side=Math.max(230,Math.min(side,h-height-230));center=Math.max(center,height+84+side/2);h=Math.max(h,center+side/2+160);}
- document.documentElement.style.setProperty('--page-height',`${h}px`);document.documentElement.style.setProperty('--center-y',`${center}px`);document.documentElement.style.setProperty('--side',`${side}px`);
+ const w=window.innerWidth,h=window.innerHeight;
+ // Keep the exercise frame steady while the on-screen keyboard is open.
+ const keyboard=frameViewport&&Math.abs(frameViewport.width-w)<2&&document.activeElement?.id==='answer'&&frameViewport.height-h>120;
+ if(!keyboard){
+  frameViewport={width:w,height:h};
+  const frame=PartyLayout.plan(w,h),style=document.documentElement.style;
+  $('game').dataset.layout=frame.landscape?'landscape':'portrait';
+  for(const [key,value]of Object.entries({'--side':frame.side,'--page-height':frame.height,'--center-y':frame.centerY,'--band-height':frame.band,'--frame-edge':frame.edge,'--frame-gap':frame.gap,'--frame-inline':frame.inline,'--leading-width':frame.leading}))style.setProperty(key,value+'px');
+ }
  sizeWords();drawLine();syncGrammarScroll();
 }
 function syncGrammarScroll(){
@@ -841,7 +975,7 @@ function renderSaveStatus(){
 function restoreProgress(restored){
  const saved=progressStore.save(restored,{replace:true});if(!saved.ok)throw Error('Cannot save restored progress');
  clearTimeout(timer);clearTimeout(dealTimer);clearTimeout(scrollSaveTimer);dealing=false;locked=false;$('card').classList.remove('is-dealing','is-dealing-out','is-dealing-in');$('card').setAttribute('aria-busy','false');$('game').classList.remove('is-changing');
- data=restored;data.savedAt=saved.savedAt;saveProtected=false;startupRecovery=false;data.current=Math.min(data.current,frontier());selectLesson(data.current);$('progress-dialog').close();$('recovery-list').hidden=true;announce('已接回練習進度。');focusCard();
+ data=restored;data.savedAt=saved.savedAt;saveProtected=false;startupRecovery=false;data.current=Math.min(data.current,frontier());selectLesson(data.current);$('progress-dialog').close();$('save-dialog').close();$('recovery-list').hidden=true;announce('已接回練習進度。');focusCard();
 }
 function showBackups(){
  const list=$('recovery-list');list.replaceChildren();list.hidden=false;recoveryChoices=progressStore.backups();
@@ -868,11 +1002,63 @@ $('progress-file').addEventListener('change',async()=>{
  const input=$('progress-file'),file=input.files?.[0];if(!file)return;
  try{
   if(file.size>5*1024*1024)throw Error('File too large');
-  const restored=progressStore.importText(await file.text());
+  const contents=await file.text(),restored=progressStore.importText(contents),record=JSON.parse(contents).record;
   restoreProgress(restored);
- }catch{$('progress-file-status').textContent='無法讀取這份進度檔，原本的練習進度已保留。';}
+  saveRecords.add(restored,record?.name||'匯入的練習進度');
+ }catch{const message='無法讀取這份進度檔，原本的練習進度已保留。';$('progress-file-status').textContent=message;saveMessage(message);}
  finally{input.value='';}
 });
+
+function describeSave(value){
+ const unit=lessons[value.current]||lessons[0],s=value.sessions[unit.id],seen=new Set(value.seen);
+ const count=unit.questions.filter(q=>seen.has(E.normalize(q.en))).length;
+ const phase=!s?'尚未開始':s.pending?'已作答，接續下一張':s.screen==='done'?'本輪練習完成':s.screen==='grammar'?'文法說明':s.mode.startsWith('review')?'綜合練習':(s.mode==='translation'||s.stage>=3?'翻譯練習':'棋盤練習')+' · 第 '+(s.stage+1)+' 次';
+ return unit.level+' · '+unit.title+'｜已完成 '+value.completed.length+' / '+lessons.length+' 個文法單元｜本單元題庫已練習 '+count+' / 30 題｜'+phase;
+}
+function recordTime(value){
+ return new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(value));
+}
+function saveMessage(message){$('save-record-status').textContent=message;}
+function downloadRecord(record){
+ const text=saveRecords.exportRecord(record),blob=new Blob([text],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');
+ const label=record.name.replace(/[\\/:*?"<>|\u0000-\u001f]/g,'-').slice(0,40);
+ link.href=url;link.download='pink-party-'+label+'-'+record.createdAt.replace(/[:.]/g,'-')+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ saveMessage('已下載這份存檔。在另一台裝置開啟同一個遊戲網址，選擇「存檔」和「匯入存檔」即可接續。');
+}
+function renderSaveRecords(){
+ const read=saveRecords.read(),list=$('save-record-list');list.replaceChildren();
+ $('undo-save-delete').hidden=!read.trash;
+ $('save-current-summary').textContent=(saveAvailable&&!saveProtected?'本機自動存檔'+(data.savedAt?' · '+recordTime(data.savedAt):''):'目前無法安全寫入本機自動存檔')+'。'+describeSave(data);
+ $('new-save-record').disabled=read.failed||read.records.length>=saveRecords.limit;
+ if(read.failed){saveMessage('存檔列表目前無法讀取，已保留原始資料。請先下載目前進度保留。');return;}
+ if(!read.records.length){const p=document.createElement('p');p.className='save-empty';p.textContent='尚未建立手動存檔。可以在想保留的進度按「建立存檔」。';list.append(p);}
+ for(const record of read.records){
+  const item=document.createElement('article');item.className='save-record';
+  const heading=document.createElement('h3');heading.textContent=record.name;
+  const time=document.createElement('time');time.dateTime=record.createdAt;time.textContent=recordTime(record.createdAt);
+  const description=document.createElement('p');description.textContent=describeSave(record.progress);
+  const actions=document.createElement('div');actions.className='record-actions';
+  const load=document.createElement('button');load.type='button';load.textContent='讀取存檔';load.addEventListener('click',()=>{try{restoreProgress(record.progress);$('save-dialog').close();announce('已讀取 '+record.name+'。');}catch{saveMessage('目前無法寫入讀取後的進度，原存檔仍保留。請先下載存檔。');}});
+  const download=document.createElement('button');download.type='button';download.textContent='下載存檔';download.addEventListener('click',()=>downloadRecord(record));
+  const remove=document.createElement('button');remove.type='button';remove.className='delete-save';remove.textContent='刪除';remove.setAttribute('aria-label','刪除存檔 '+record.name);remove.addEventListener('click',()=>{const result=saveRecords.remove(record.id);if(result.ok){renderSaveRecords();saveMessage('已刪除 '+record.name+'。可按「復原刪除」取回。');}else saveMessage('無法更新存檔列表，這份存檔已保留。');});
+  actions.append(load,download,remove);item.append(heading,time,description,actions);list.append(item);
+ }
+ if(read.records.length>=saveRecords.limit)saveMessage('已保留 '+saveRecords.limit+' 份存檔。可先下載並刪除不需要的紀錄，再建立新存檔。');
+}
+function openSaves(){
+ flushProgress();$('progress-dialog').close();saveMessage('');renderSaveRecords();$('save-dialog').showModal();
+}
+$('save-button').addEventListener('click',openSaves);
+$('manage-saves').addEventListener('click',openSaves);
+$('new-save-record').addEventListener('click',()=>{
+ flushProgress();const name=$('record-name').value.trim()||lesson().title,result=saveRecords.add(data,name);
+ if(result.ok){$('record-name').value='';renderSaveRecords();saveMessage('已建立「'+result.record.name+'」。若要帶到另一台裝置，請下載這份存檔。');}
+ else saveMessage(result.reason==='full'?'存檔已滿，請先下載並刪除不需要的紀錄。':'這台裝置目前無法建立存檔。請按「下載目前進度」保留。');
+});
+$('download-current-save').addEventListener('click',()=>{$('export-progress').click();saveMessage('已下載目前進度。在另一台裝置選擇「匯入存檔」即可接續。');});
+$('import-save-record').addEventListener('click',()=>$('progress-file').click());
+$('undo-save-delete').addEventListener('click',()=>{const result=saveRecords.undo();if(result.ok){renderSaveRecords();saveMessage('已復原剛才刪除的存檔。');}else saveMessage('目前無法復原刪除，請稍後再試。');});
+
 $('menu-button').addEventListener('click',openProgress);
 $('grammar-button').addEventListener('click',()=>{if(locked)return;session.assisted=true;save();$('grammar-detail').innerHTML=grammarHTML(lesson(),question(),'h3');$('grammar-detail').scrollTop=0;$('grammar-dialog').showModal();syncGrammarScroll();});
 $('vocab-button').addEventListener('click',()=>{
@@ -886,6 +1072,8 @@ document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',
 for(const d of document.querySelectorAll('dialog'))d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();});
 $('fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{announce('此瀏覽器目前無法開啟全螢幕。');}});
 document.addEventListener('fullscreenchange',()=>{$('fullscreen').setAttribute('aria-label',document.fullscreenElement?'離開全螢幕':'全螢幕');layout();});
+window.visualViewport?.addEventListener('resize',()=>{if(!window.visualViewport.scale||window.visualViewport.scale===1)layout();});
+$('answer').addEventListener('blur',()=>setTimeout(layout,180));
 window.addEventListener('resize',()=>{layout();if(session.screen==='done'){cancelAnimationFrame(celebrationFrame);celebrate();}});window.addEventListener('pagehide',flushProgress);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushProgress();});
 selectLesson(data.current);
 })();
